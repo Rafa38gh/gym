@@ -37,13 +37,15 @@ async function register(req, res) {
             }
         });
 
+        return res.redirect('/login');
+
         // Retornar resposta
-        return res.status(201).json({
+        /*return res.status(201).json({
             id: user.id,
             nome: user.nome,
             email: user.email,
             createdAt: user.createdAt
-        });
+        }); */
 
     } catch(error) {
         console.error(error);

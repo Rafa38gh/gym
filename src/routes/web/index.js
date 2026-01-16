@@ -23,7 +23,7 @@ router.get('/dashboard', (req, res) => {
         return res.redirect('/login');
     }
 
-    res.render('dashboard', { user: req.session.user });
+    res.render('dashboard/dashboard', { user: req.session.user });
 });
 
 module.exports = router;
