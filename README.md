@@ -3,7 +3,6 @@
 1. Baixar o npm:
 ```bash
 npm install
-npm start
 ```
 
 2. Iniciar os containeres:
@@ -15,4 +14,10 @@ docker-compose up -d --build
 ```bash
 cp .env.example .env
 npx prisma migrate dev --name init
+```
+
+4. Iniciar o aplicativo:
+```bash
+npm run dev
+npm start
 ```
