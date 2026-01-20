@@ -11,28 +11,38 @@
     <div class="container">
         <h1>Login</h1>
 
-        <form action="/api/users/login" method="post">
+        <% if (typeof error !== 'undefined' && error) { %>
+            div class="alert alert-error">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form id="loginForm" action="/api/users/login" method="post" novalidate>
             <div>
                 <label for="email">Email</label>
-                <input type="email" name="email" required>
+                <input id="email" type="email" name="email" placeholder="seu@email.com" required>
+                <div class="error-message" id="emailError"></div>
             </div>
 
             <br>
 
             <div>
                 <label for="senha">Senha</label>
-                <input type="password" name="senha" required>
+                <input id="senha" type="password" name="senha" placeholder="Digite sua senha" required minlength="6">
+                <div class="error-message" id="senhaError"></div>
             </div>
 
             <br>
 
-            <button type="submit">Entrar</button>
+            <button type="submit" id="submitBtn">Entrar</button>
         </form>
 
         <p>
             Não tem uma conta? <a href="/register">Cadastre-se</a>
         </p>
     </div>
+
+    <script src="/javascripts/login-validation.js"></script>
 
 </body>
 </html>

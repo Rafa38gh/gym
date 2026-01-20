@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const ensureAuthenticated = require('../../middlewares/authMiddleware');
 
 // Home page
 router.get('/', (req, res) => {
@@ -18,11 +19,7 @@ router.get('/login', (req, res) => {
 
 
 // Dashboard
-router.get('/dashboard', (req, res) => {
-    if(!req.session.user) {
-        return res.redirect('/login');
-    }
-
+router.get('/dashboard', ensureAuthenticated, (req, res) => {
     res.render('dashboard/dashboard', { user: req.session.user });
 });
 

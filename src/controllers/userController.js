@@ -1,35 +1,59 @@
 const bcrypt = require('bcrypt');
 const prisma = require('../prisma/client');
 
+function isValidEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
 
 // Registrar usuários
 async function register(req, res) {
-    const { nome, email, senha } = req.body;
+    let { nome, email, senha } = req.body;
 
-    // Validação
+    // Normalização
+    nome = nome?.trim();
+    email = email?.trim().toLowerCase();
+
     if(!nome || !email || !senha) {
-        return res.status(400).json({
-            error: 'Nome, email e senha são obrigatórios.'
+        return res.status(400).render('auth/register', {
+            error: 'Nome, email e senha são obrigatórios'
+        });
+    }
+
+    if(nome.length < 3 || nome.length > 100) {
+        return res.status(400).render('auth/register', {
+            error: 'Nome deve ter entre 3 e 100 caracteres'
+        });
+    }
+
+    if(!isValidEmail(email)) {
+        return res.status(400).render('auth/register', {
+            error: 'Email inválido'
+        });
+    }
+
+    if(senha.length < 6) {
+        return res.status(400).render('auth/register', {
+            error: 'Senha deve ter no mínimo 6 caracteres'
         });
     }
 
     try {
-        // Verificar se o email já está em uso
+        // Email já existente
         const existingUser = await prisma.user.findUnique({
             where: { email }
         });
 
         if(existingUser) {
-            return res.status(409).json({
-                error: 'Email já está em uso.'
+            return res.status(409).render('auth/register', {
+                error: 'Email já está em uso'
             });
         }
 
         // Hash da senha
         const hashedPassword = await bcrypt.hash(senha, 10);
 
-        // Criar usuário
-        const user = await prisma.user.create({
+        await prisma.user.create({
             data: {
                 nome,
                 email,
@@ -39,18 +63,10 @@ async function register(req, res) {
 
         return res.redirect('/login');
 
-        // Retornar resposta
-        /*return res.status(201).json({
-            id: user.id,
-            nome: user.nome,
-            email: user.email,
-            createdAt: user.createdAt
-        }); */
-
     } catch(error) {
         console.error(error);
-        return res.status(500).json({
-            error: 'Erro interno do servidor.'
+        return res.status(500).render('auth/register', {
+            error: 'Error interno do servidor'
         });
     }
 }
@@ -58,51 +74,59 @@ async function register(req, res) {
 
 // Login de usuários
 async function login(req, res) {
-    console.log('Login attempt received');
-    const { email, senha } = req.body;
+    let { email, senha } = req.body;
 
-    // Validação
     if(!email || !senha) {
-        return res.status(400).json({
-            error: 'Email e senha são obrigatórios.'
+        return res.render('auth/login', {
+            error: 'Credenciais inválidas'
+        });
+    }
+
+    email = email.trim().toLowerCase();
+
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.render('auth/login', {
+            error: 'Credenciais inválidas'
+        });
+    }
+
+    if(senha.length < 6) {
+        return res.render('auth/login', {
+            error: 'Credenciais inválidas'
         });
     }
 
     try {
-        // Buscar usuário
         const user = await prisma.user.findUnique({
             where: { email }
         });
 
         if(!user) {
             return res.render('auth/login', {
-                error: 'Credenciais inválidas.'
+                error: 'Credenciais inválidas'
             });
         }
 
-        // Verificar senha
         const isPasswordValid = await bcrypt.compare(senha, user.senha);
 
         if(!isPasswordValid) {
             return res.render('auth/login', {
-                error: 'Credenciais inválidas.'
+                error: 'Credenciais inválidas'
             });
         }
 
-        // Login com sucesso
-        console.log('Login bem sucedido para o usuário:', user.email);
         req.session.user = {
             id: user.id,
             nome: user.nome,
             email: user.email
-        }
+        };
 
         return res.redirect('/dashboard');
 
     } catch(error) {
         console.error(error);
-        return res.status(500).json({
-            error: 'Erro interno do servidor.'
+        return res.status(500).render('auth/login', {
+            error: 'Erro interno do servidor'
         });
     }
 

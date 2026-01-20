@@ -12,6 +12,9 @@ var app = express();
 
 const session = require('express-session');
 
+// Servir arquivos estáticos da pasta public
+app.use(express.static('public'));
+
 // view engine setup
 app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'ejs');
