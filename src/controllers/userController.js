@@ -8,21 +8,45 @@ function isValidEmail(email) {
 
 // Registrar usuários
 async function register(req, res) {
-    let { nome, email, senha } = req.body;
+    let { nome, username, email, senha } = req.body;
 
     // Normalização
     nome = nome?.trim();
+    username = username?.trim().toLowerCase();
     email = email?.trim().toLowerCase();
 
-    if(!nome || !email || !senha) {
+    if(!nome || !username || !email || !senha) {
         return res.status(400).render('auth/register', {
-            error: 'Nome, email e senha são obrigatórios'
+            error: 'Nome, username, email e senha são obrigatórios'
         });
     }
 
     if(nome.length < 3 || nome.length > 100) {
         return res.status(400).render('auth/register', {
-            error: 'Nome deve ter entre 3 e 100 caracteres'
+            error: 'Nome deve ter entre 3 e 100 caracteres',
+            nome,
+            username,
+            email
+        });
+    }
+
+    if(!username) {
+        return res.status(400).render('auth/register', {
+            error: 'Username é obrigatório',
+            nome,
+            username,
+            email
+        });
+    }
+
+    const usernameRegex = /^[a-z0-9](?:[a-z0-9_]{1,18}[a-z0-9])?$/;
+
+    if(!usernameRegex.test(username)) {
+        return res.status(400).render('auth/register', {
+            error: 'Username inválido, apenas letras minúsculas, números e "_"',
+            nome,
+            username,
+            email
         });
     }
 
@@ -46,7 +70,23 @@ async function register(req, res) {
 
         if(existingUser) {
             return res.status(409).render('auth/register', {
-                error: 'Email já está em uso'
+                error: 'Email já está em uso',
+                nome,
+                username
+            });
+        }
+
+        // Username já existente
+        const existingUserByUsername = await prisma.user.findUnique({
+            where: { username }
+        });
+
+        if(existingUserByUsername) {
+            return res.status(409).render('auth/register', {
+                error: 'Username já está em uso',
+                nome,
+                username,
+                email
             });
         }
 
@@ -56,6 +96,7 @@ async function register(req, res) {
         await prisma.user.create({
             data: {
                 nome,
+                username,
                 email,
                 senha: hashedPassword
             }
@@ -118,6 +159,7 @@ async function login(req, res) {
         req.session.user = {
             id: user.id,
             nome: user.nome,
+            username: user.username,
             email: user.email
         };
 
