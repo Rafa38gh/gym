@@ -1,67 +1,116 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex items-center justify-center min-h-[calc(100vh-200px)]">
+    <div class="w-full max-w-md">
 
-    <title>Cadastro</title>
-</head>
-<body>
-    
-    <div class = "container">
-        <h1>Criar Conta</h1>
+        <!-- Header -->
+         <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-3">Comece sua transformação</h1>
+            <p class="text-gray-400 text-lg">Crie sua conta e alcance seus objetivos</p>
+         </div>
 
-        <% if (typeof error !== 'undefined' && error) { %>
-            <div class="alert alert-error">
-                <%= error %>
-            </div>
-        <% } %>
+        <!-- Card de Registro -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl">
+            
+            <!-- Mensagem de erro -->
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-error bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl mb-6 flex items-start space-x-3">
+                    <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-sm"><%= error %></span>
+                </div>
+            <% } %>
 
-        <form id="registerForm" method="post" action="/api/users/register">
-            <div>
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" placeholder="Seu nome completo" value="<%= typeof nome !== 'undefined' ? nome : '' %>" required>
+            <!-- Formulário -->
+            <form id="registerForm" method="post" action="/api/users/register" novalidate class="space-y-5">
+                
+                <!-- Nome -->
+                <div>
+                    <label for="nome" class="block text-sm font-medium text-gray-200 mb-2">
+                        Nome
+                    </label>
+                    <input 
+                        type="text" 
+                        id="nome" 
+                        name="nome" 
+                        placeholder="Seu nome completo" 
+                        value="<%= typeof nome !== 'undefined' ? nome : '' %>" 
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        required
+                    >
+                    <div class="error-message mt-2 text-sm text-red-400" id="nomeError"></div>
+                </div>
 
-                <div class="error-message" id="nomeError"></div>
-            </div>
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-200 mb-2">
+                        Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="seu@email.com" 
+                        value="<%= typeof email !== 'undefined' ? email : '' %>"
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all" 
+                        required
+                    >
+                    <div class="error-message mt-2 text-sm text-red-400" id="emailError"></div>
+                </div>
 
-            <br>
+                <!-- Senha -->
+                <div>
+                    <label for="senha" class="block text-sm font-medium text-gray-200 mb-2">
+                        Senha
+                    </label>
+                    <input 
+                        type="password" 
+                        id="senha" 
+                        name="senha" 
+                        placeholder="Mínimo 6 caracteres" 
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        required 
+                        minlength="6"
+                    >
+                    <div class="error-message mt-2 text-sm text-red-400" id="senhaError"></div>
+                    <div class="password-strength mt-2 text-sm font-medium" id="passwordStrength"></div>
+                </div>
 
-            <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="seu@email.com" value="<%= typeof email !== 'undefined' ? email : '' %>" required>
+                <!-- Confirmar Senha -->
+                <div>
+                    <label for="confirmarSenha" class="block text-sm font-medium text-gray-200 mb-2">
+                        Confirmar Senha
+                    </label>
+                    <input 
+                        type="password" 
+                        id="confirmarSenha" 
+                        name="confirmarSenha" 
+                        placeholder="Digite a senha novamente" 
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        required 
+                        minlength="6"
+                    >
+                    <div class="error-message mt-2 text-sm text-red-400" id="confirmarSenhaError"></div>
+                </div>
 
-                <div class="error-message" id="emailError"></div>
-            </div>
+                <!-- Submit -->
+                <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-3 rounded-xl hover:shadow-lg hover:shadow-orange-500/50 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-slate-900 mt-6">Criar Conta</button>
+            </form>
 
-            <br>
+            <!-- Divisor -->
+             <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-white/10"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-transparent text-gray-400">Já tem uma conta?</span>
+                </div>
+             </div>
+            
+            <!-- Link de login -->
+            <a href="/login" class="block w-full text-center border-2 border-white/20 text-white font-semibold py-3 rounded-xl hover:bg-white/10 transition-all">Fazer Login</a>
 
-            <div>
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" placeholder="Mínimo 6 caracteres" required minlength="6">
-
-                <div class="error-message" id="senhaError"></div>
-                <div class="password-strength" id="passwordStrength"></div>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="confirmarSenha">Confirmar Senha</label>
-                <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Digite a senha novamente" required minlength="6">
-
-                <div class="error-message" id="confirmarSenhaError"></div>
-            </div>
-
-            <button type="submit" id="submitBtn">Cadastrar</button>
-        </form>
-
-        <div>
-            <a href="/login">Já possui uma conta? Faça login</a>
         </div>
     </div>
+</div>
 
-    <script src="/javascripts/register-validation.js"></script>
-
-</body>
-</html>
+<script src="/javascripts/register-validation.js"></script>

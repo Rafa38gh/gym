@@ -1,15 +1,226 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Dashboard Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Welcome Section -->
+    <div class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+            Olá, <%= user.nome.split(' ')[0] %>! 👋
+        </h1>
+        <p class="text-gray-400 text-lg">Veja seu progresso e continue sua jornada fitness</p>
+    </div>
 
-    <title>Dashboard</title>
-</head>
-<body>
-    
-    <h1>Dashboard</h1>
-    <p>Bem-vindo ao seu painel!</p>
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stat 1 - Treinos -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <span class="text-green-400 text-sm font-semibold">+12%</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-1">24</h3>
+            <p class="text-gray-400 text-sm">Treinos este mês</p>
+        </div>
 
-</body>
-</html>
+        <!-- Stat 2 - Tempo -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <span class="text-green-400 text-sm font-semibold">85%</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-1">18h</h3>
+            <p class="text-gray-400 text-sm">Tempo de treino</p>
+        </div>
+
+        <!-- Stat 3 - Seguidores -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <span class="text-green-400 text-sm font-semibold">+3</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-1">142</h3>
+            <p class="text-gray-400 text-sm">Seguidores</p>
+        </div>
+
+        <!-- Stat 4 - Meta -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <span class="text-red-400 text-sm font-semibold">92%</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-1">23/25</h3>
+            <p class="text-gray-400 text-sm">Meta mensal</p>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid lg:grid-cols-3 gap-6 mb-20">
+        <!-- Treino de Hoje -->
+        <div class="lg:col-span-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white">Treino de Hoje</h2>
+                <span class="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold">
+                    Treino A
+                </span>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Exercício 1 -->
+                <div class="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-white font-semibold">Supino Reto</h3>
+                        <span class="text-green-400 text-sm">✓ Completo</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">4 séries × 12 repetições</p>
+                    <div class="mt-3 w-full bg-white/5 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <!-- Exercício 2 -->
+                <div class="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-white font-semibold">Crucifixo Inclinado</h3>
+                        <span class="text-yellow-400 text-sm">Em andamento</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">3 séries × 15 repetições</p>
+                    <div class="mt-3 w-full bg-white/5 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full" style="width: 66%"></div>
+                    </div>
+                </div>
+
+                <!-- Exercício 3 -->
+                <div class="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-all">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-white font-semibold">Tríceps Testa</h3>
+                        <span class="text-gray-400 text-sm">Pendente</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">3 séries × 12 repetições</p>
+                    <div class="mt-3 w-full bg-white/5 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="w-full mt-6 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-3 rounded-xl hover:shadow-lg hover:shadow-orange-500/50 transition-all">
+                Ver Treino Completo
+            </button>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Quick Actions -->
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+                <h2 class="text-xl font-bold text-white mb-4">Ações Rápidas</h2>
+                <div class="space-y-3">
+                    <button class="w-full flex items-center space-x-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all group">
+                        <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </div>
+                        <span class="text-white font-medium">Novo Treino</span>
+                    </button>
+
+                    <button class="w-full flex items-center space-x-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all group">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                        </div>
+                        <span class="text-white font-medium">Nova Dieta</span>
+                    </button>
+
+                    <button class="w-full flex items-center space-x-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all group">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                            </svg>
+                        </div>
+                        <span class="text-white font-medium">Nova Postagem</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nutrition Today -->
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+                <h2 class="text-xl font-bold text-white mb-4">Nutrição Hoje</h2>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">Calorias</span>
+                            <span class="text-white font-semibold">1850/2000</span>
+                        </div>
+                        <div class="w-full bg-white/5 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full" style="width: 92.5%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">Proteínas</span>
+                            <span class="text-white font-semibold">140/150g</span>
+                        </div>
+                        <div class="w-full bg-white/5 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" style="width: 93%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">Carboidratos</span>
+                            <span class="text-white font-semibold">210/250g</span>
+                        </div>
+                        <div class="w-full bg-white/5 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full" style="width: 84%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-black/50 backdrop-blur-md border-t border-white/10 z-50">
+    <div class="flex justify-around items-center h-16 px-4">
+        <a href="/dashboard" class="flex flex-col items-center space-y-1 text-orange-400">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            </svg>
+            <span class="text-xs font-medium">Início</span>
+        </a>
+        <a href="/treinos" class="flex flex-col items-center space-y-1 text-gray-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            <span class="text-xs font-medium">Treinos</span>
+        </a>
+        <a href="/dietas" class="flex flex-col items-center space-y-1 text-gray-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            <span class="text-xs font-medium">Dietas</span>
+        </a>
+        <a href="/comunidade" class="flex flex-col items-center space-y-1 text-gray-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span class="text-xs font-medium">Social</span>
+        </a>
+    </div>
+</nav>

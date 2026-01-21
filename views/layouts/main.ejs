@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <title><%= title %></title>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 min-h-screen">
+
+    <%- include('../partials/navbar', { title, user }) %>
+
+    <main>
+        <%- body %>
+    </main>
+
+    <%- include('../partials/footer', { title }) %>
+    
+</body>
+</html>

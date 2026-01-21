@@ -1,48 +1,81 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex items-center justify-center min-h-[calc(100vh-200px)]">
+    <div class="w-full max-w-md">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-3">Bem-vindo de volta!</h1>
+            <p class="text-gray-400 text-lg">Entre para continuar sua jornada fitness</p>
+        </div>
 
-    <title>Login</title>
-</head>
-<body>
-    
-    <div class="container">
-        <h1>Login</h1>
+        <!-- Card de login -->
+        <div class="alert alert-error bg-white/10 backdrop-blur-md border border-white/20 rounded 2xl p-8 shadow-2xl">
+           
+            <!-- Mensagem de erro -->
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl mb-6 flex items-start space-x-3">
+                    <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="currenColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/> 
+                    </svg>
+                    <span class="text-sm"><%= error %></span>
+                </div>
+            <% } %>
 
-        <% if (typeof error !== 'undefined' && error) { %>
-            div class="alert alert-error">
-                <%= error %>
+            <!-- Formulário -->
+            <form id="loginForm" action="/api/users/login" method="post" novalidate class="space-y-6">
+                
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-200 mb-2">
+                        Email
+                    </label>
+                    <input 
+                        id="email" 
+                        type="email" 
+                        name="email" 
+                        placeholder="seu@email.com" 
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-orange-500 focus:border-transparent transition-all"
+                        required
+                    >
+                    <div class="error-message mt-2 text-sm text-red-400" id="emailError"></div>
+                </div>
+
+                <!-- Senha -->
+                <div>
+                    <label for="senha" class="block text-sm font-medium text-gray-200 mb-2">
+                        Senha
+                    </label>
+                    <input 
+                        id="senha" 
+                        type="password" 
+                        name="senha" 
+                        placeholder="Digite sua senha" 
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        required 
+                        minlength="6"
+                    >
+                    <div class="error-message mt-2 text-sm text-red-400" id="senhaError"></div>
+                </div>
+
+                <!-- Sumbit -->
+                <button 
+                type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-3 rounded-xl hover:shadow-lg hover:shadow-orange-500/50 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-slate-900">Entrar</button>
+            </form>
+
+            <!-- Divisor -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-white/10"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-transparent text-gray-400">Ainda não tem uma conta?</span>
+                </div>
             </div>
-        <% } %>
-
-        <form id="loginForm" action="/api/users/login" method="post" novalidate>
-            <div>
-                <label for="email">Email</label>
-                <input id="email" type="email" name="email" placeholder="seu@email.com" required>
-                <div class="error-message" id="emailError"></div>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="senha">Senha</label>
-                <input id="senha" type="password" name="senha" placeholder="Digite sua senha" required minlength="6">
-                <div class="error-message" id="senhaError"></div>
-            </div>
-
-            <br>
-
-            <button type="submit" id="submitBtn">Entrar</button>
-        </form>
-
-        <p>
-            Não tem uma conta? <a href="/register">Cadastre-se</a>
-        </p>
+            
+            <!-- Link de registro -->
+            <a href="/register" class="block w-full text-center border-2 border-white/20 text-white font-semibold py-3 rounded-xl hover:bg-white/10 transition-all">Criar Conta</a>
+        
+        </div>
     </div>
+</div>
 
-    <script src="/javascripts/login-validation.js"></script>
-
-</body>
-</html>
+<script src="/javascripts/login-validation.js"></script>
