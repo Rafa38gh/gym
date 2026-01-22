@@ -13,12 +13,134 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// =============================
+// Enums
+// =============================
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+// =============================
+// Models
+// =============================
+
 model User {
-  id        Int       @id @default(autoincrement())
-  nome      String  
-  email     String    @unique
-  senha     String  
-  createdAt DateTime  @default(now())
+  id Int @id @default(autoincrement())
+
+  nome     String
+  username String @unique
+  email    String @unique
+  senha    String
+
+  bio       String? @db.VarChar(280)
+  avatarURL String?
+
+  // Postagens
+  posts        Post[]
+  comments     Comment[]
+  commentLikes CommentLike[]
+  postLikes    PostLike[]
+
+  // Seguidores
+  following Follow[] @relation("UserFollows") // Quem eu sigo
+  followers Follow[] @relation("UserFollowers") // Quem me segue 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model Post {
+  id      Int    @id @default(autoincrement())
+  content String
+
+  mediaURL  String?
+  mediaType MediaType?
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
+  likes    PostLike[]
+
+  createdAt DateTime @default(now())
+
+  @@index([authorId])
+  @@index([createdAt])
+  @@map("posts")
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  content String
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  postId Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  // Respostas de comentário
+  parentId Int?
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  Comment[] @relation("CommentReplies")
+
+  likes CommentLike[]
+
+  createdAt DateTime @default(now())
+
+  @@index([postId, createdAt])
+  @@index([userId])
+  @@map("comments")
+}
+
+model CommentLike {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  commentId Int
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, commentId])
+  @@map("comment_likes")
+}
+
+model PostLike {
+  id Int
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  postId Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@index([postId])
+  @@map("post_likes")
+}
+
+model Follow {
+  id Int @id @default(autoincrement())
+
+  followerId Int
+  follower   User @relation("UserFollows", fields: [followerId], references: [id], onDelete: Cascade)
+
+  followingId Int
+  following   User @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+  @@map("follows")
 }

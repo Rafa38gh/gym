@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const ensureAuthenticated = require('../../middlewares/authMiddleware');
+const { ensureAuthenticated, ensureGuest } = require('../../middlewares/authMiddleware');
+
+const dashboardRoutes = require('./dashboard.routes');
 
 // Home page
 router.get('/', (req, res) => {
@@ -9,18 +11,16 @@ router.get('/', (req, res) => {
 
 
 // Autenticação
-router.get('/register', (req, res) => {
+router.get('/register', ensureGuest, (req, res) => {
     res.render('auth/register');
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', ensureGuest, (req, res) => {
     res.render('auth/login');
 });
 
 
 // Dashboard
-router.get('/dashboard', ensureAuthenticated, (req, res) => {
-    res.render('dashboard/dashboard', { user: req.session.user });
-});
+router.use(dashboardRoutes);
 
 module.exports = router;

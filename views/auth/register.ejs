@@ -36,8 +36,31 @@
                         value="<%= typeof nome !== 'undefined' ? nome : '' %>" 
                         class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                         required
+                        minlength="3"
                     >
                     <div class="error-message mt-2 text-sm text-red-400" id="nomeError"></div>
+                </div>
+
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-200 mb-2">
+                        Nome de Usuário
+                    </label>
+                    <input 
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="username"
+                        value="<%= typeof username !== 'undefined' ? username : '' %>"
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        required
+                        minlength="3"
+                        maxlength="20"
+                    >
+                    <p class="text-xs text-gray-400 mt-1">
+                        Apenas letras, números, ponto e underline
+                    </p>
+                    <div class="error-message mt-2 text-sm text-red-400" id="usernameError"></div>
                 </div>
 
                 <!-- Email -->

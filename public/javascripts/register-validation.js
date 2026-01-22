@@ -1,17 +1,16 @@
 // register-validation.js
 // Validação do formulário de registro
 
-//DEBUG
-console.log('register-validation.js carregado.');
-
 const form = document.getElementById('registerForm');
 const nomeInput = document.getElementById('nome');
+const usernameInput = document.getElementById('username');
 const emailInput = document.getElementById('email');
 const senhaInput = document.getElementById('senha');
 const confirmarSenhaInput = document.getElementById('confirmarSenha');
 const submitBtn = document.getElementById('submitBtn');
 
 const nomeError = document.getElementById('nomeError');
+const usernameError = document.getElementById('usernameError');
 const emailError = document.getElementById('emailError');
 const senhaError = document.getElementById('senhaError');
 const confirmarSenhaError = document.getElementById('confirmarSenhaError');
@@ -107,6 +106,33 @@ function checkNome() {
     }
 }
 
+// Validar username
+function checkUsername() {
+    const usernameValue = usernameInput.value.trim().toLowerCase();
+
+    // Força lowercase visualmente
+    usernameInput.value = usernameValue;
+
+    if(usernameValue === '') {
+        showError(usernameInput, usernameError, 'Username é obrigatório');
+        return false;
+
+    } else if (usernameValue.length < 3 || usernameValue.length > 20) {
+        showError(usernameInput, usernameError, 'Username deve ter entre 3 e 20 caracteres');
+        return false;
+    }
+
+    const usernameRegex = /^[a-z0-9](?:[a-z0-9_]{1,18}[a-z0-9])?$/;
+
+    if(!usernameRegex.test(usernameValue)) {
+        showError(usernameInput, usernameError, 'Use apenas letras minúsculas, números e "_"');
+        return false;
+    }
+
+    showSuccess(usernameInput, usernameError);
+    return true;
+}
+
 // Validar email
 function checkEmail() {
     const emailValue = emailInput.value.trim();
@@ -180,6 +206,7 @@ function checkConfirmarSenha() {
 
 // Event listeners
 nomeInput.addEventListener('blur', checkNome);
+usernameInput.addEventListener('blur', checkUsername);
 emailInput.addEventListener('blur', checkEmail);
 senhaInput.addEventListener('blur', checkSenha);
 senhaInput.addEventListener('input', checkSenha);
@@ -188,6 +215,12 @@ confirmarSenhaInput.addEventListener('blur', checkConfirmarSenha);
 nomeInput.addEventListener('input', () => {
     if (nomeInput.classList.contains('error')) {
         checkNome();
+    }
+});
+
+usernameInput.addEventListener('input', () => {
+    if(usernameInput.classList.contains('error')) {
+        checkUsername();
     }
 });
 
@@ -207,11 +240,12 @@ confirmarSenhaInput.addEventListener('input', () => {
 form.addEventListener('submit', (e) => {
 
     const isNomeValid = checkNome();
+    const isUsernameValid = checkUsername();
     const isEmailValid = checkEmail();
     const isSenhaValid = checkSenha();
     const isConfirmarValid = checkConfirmarSenha();
 
-    if(!isNomeValid || !isEmailValid || !isSenhaValid || !isConfirmarValid) {
+    if(!isNomeValid || !isUsernameValid || !isEmailValid || !isSenhaValid || !isConfirmarValid) {
         e.preventDefault();
         return;
     }
