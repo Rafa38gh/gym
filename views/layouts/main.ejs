@@ -10,11 +10,96 @@
 
     <%- include('../partials/navbar', { title, user }) %>
 
-    <main>
+    <% if (typeof showSidebar !== 'undefined' && showSidebar) { %>
+        <%- include('../partials/sidebar', { user }) %>
+    <% } %>
+
+    <main class="<%= (typeof showSidebar !== 'undefined' && showSidebar) ? 'pl-0 md:pl-64 transition-all' : '' %>">
         <%- body %>
     </main>
 
     <%- include('../partials/footer', { title }) %>
     
+    <div id="logoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-slate-900 border border-white/10 rounded-xl p-6 w-full max-w-sm">
+            <h2 class="text-xl font-semibold text-white mb-4">
+                Sair da conta
+            </h2>
+
+            <p class="text-gray-300 mb-6">
+                Tem certeza que deseja sair?
+            </p>
+
+            <div class="flex justify-end space-x-3">
+                <button id="cancelLogout" class="px-4 py-2 rounded-lg bg-white/10 text-gray-300 hover:bg-white/20">
+                    Cancelar
+                </button>
+
+                <button id="confirmLogout" class="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600">
+                    Sair
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <% if (typeof showSidebar !== 'undefined' && showSidebar) { %>
+        <script>
+            const btn = document.getElementById('toggleSidebar');
+            const sidebar = document.getElementById('sidebar');
+
+            if(btn) {
+                btn.addEventListener('click', () => {
+                    sidebar.classList.toggle('-translate-x-full');
+                });
+            }
+        </script>
+
+    <% } %>
+
+    <script>
+        const logoutBtn = document.getElementById('logoutBtn');
+        const logoutModal = document.getElementById('logoutModal');
+        const cancelLogout = document.getElementById('cancelLogout');
+        const confirmLogout = document.getElementById('confirmLogout');
+
+        if(logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                logoutModal.classList.remove('hidden');
+                logoutModal.classList.add('flex');
+            });
+        }
+
+        if(cancelLogout) {
+            cancelLogout.addEventListener('click', () => {
+                logoutModal.classList.add('hidden');
+                logoutModal.classList.remove('flex');
+            });
+        }
+
+        if(confirmLogout) {
+            confirmLogout.addEventListener('click', async () => {
+                try {
+                    const res = await fetch('/api/users/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if(res.ok) {
+                        window.location.href = '/login';
+
+                    } else {
+                        alert('Erro ao sair');
+                    }
+                } catch(err) {
+                    console.error(err);
+                    alert('Erro ao sair');
+                }
+            });
+        }
+    </script>
+
 </body>
 </html>

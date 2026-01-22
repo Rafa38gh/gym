@@ -174,7 +174,27 @@ async function login(req, res) {
 
 }
 
+// Logout
+async function logout(req, res) {
+    try {
+        req.session.destroy(err => {
+            if(err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Erro ao encerrar sessão' });
+            }
+
+            res.clearCookie('connect.sid')      // Nome padrão do express-session
+            return res.status(200).json({ success: true });
+        });
+
+    } catch(error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    logout
 };
